@@ -1,0 +1,467 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, arial, sans-serif;
+  background-color: #222;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  font-style: italic;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* HEADER AREA STYLES */
+
+header {
+  /*background-image: url("img/20151111_132242.jpg");*/
+  background-image: url("img/DSC08863-1.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 350px;
+  position: relative;
+  padding-top: 5px;
+  color: #444;
+}
+
+header blockquote {
+  float: right;
+  text-align: right;
+  margin-top: 0;
+  margin-bottom: 60px;
+  text-shadow: 0px 0px 1px #fff;
+  font-size: 12px;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.dev-path {
+  font-size: 15px;
+  text-align: center;
+  clear: both;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 2px #fff;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.dev-name {
+  margin-top: 0;
+  font-size: 30px;
+  color: #ccc;
+  font-style: italic;
+  text-align: center;
+  text-shadow: 1px 1px 5px #000;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+@media (min-width: 600px) {
+
+  .dev-path {
+    font-size: 20px;
+  }
+
+  .dev-name {
+    font-size: 40px;
+  }
+
+  header blockquote {
+    font-size: 16px;
+  }
+
+}
+
+@media (min-width: 1024px) {
+
+  .dev-path {
+    font-size: 30px;
+  }
+
+  .dev-name {
+    font-size: 60px;
+  }
+
+}
+
+nav {
+  position: relative;
+  width: 100%;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.menu {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  margin: 0;
+  font-size: 12px;
+}
+
+.menu > li {
+  position: relative;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all 0.35s ease-in-out 0s;
+  text-shadow: none;
+}
+
+#home {
+  width: 100%;
+}
+
+.main-menu-toggle:hover {
+  cursor: pointer;
+  color: #fff;
+}
+
+.main-menu,
+#home {
+  height: 0;
+  overflow: hidden;
+}
+
+@keyframes revealmenu {
+
+  0% {
+    height: 0;
+  }
+
+  99.99% {
+    height: 120px;
+  }
+
+  100% {
+    height: auto;
+  }
+
+}
+
+@keyframes revealsubmenu {
+
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: 256px;
+  }
+
+}
+
+#main-menu:checked + .main-menu {
+  animation: revealmenu 0.3s ease-in-out 0s forwards;
+}
+
+#main-menu:checked ~ #home {
+  height: 24px;
+}
+
+#main-menu:checked + ul #submenu:checked ~ .submenu {
+  animation: revealsubmenu 0.3s ease-in-out 0s forwards;
+  background-color: rgba(255, 165, 0, 0.8);
+}
+
+#submenu:checked ~ label {
+  color: #000;
+  background-color: rgba(255, 165, 0, 0.8);
+}
+
+/*#main-menu:not(:checked) + ul #submenu:checked + .submenu {
+  height: 0;
+}*/
+
+@media (min-width: 650px) {
+
+  nav {
+    transform: translateY(-100%);
+  }
+
+  .main-menu,
+  #home {
+    height: auto;
+    overflow: visible;
+  }
+
+  #home {
+    width: auto;
+  }
+
+  .menu > li > * {
+    float: left;
+  }
+
+  .main-menu > li {
+    float: left;
+    border-left: 2px solid transparent;
+  }
+
+}
+
+@media (min-width: 1024px) {
+
+  .menu {
+    font-size: 16px;
+  }
+
+}
+
+#home {
+  float: right;
+}
+
+.menu a {
+  font-style: normal;
+}
+
+nav a:hover {
+  text-decoration: none;
+}
+
+nav li a,
+.menu > li:first-child label {
+  display: block;
+  padding: 5px 8px;
+}
+
+@media (min-width: 1024px) {
+
+  nav li a,
+  .menu > li:first-child label {
+    padding: 5px 20px;
+  }
+
+}
+
+.menu > li:first-child > label {
+  background-color: rgba(255, 165, 0, 0.8);
+  color: #000;
+  border-color: transparent;
+}
+
+.arrow-down {
+  padding-left: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.submenu {
+  position: relative;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 0;
+  transition: all 0.3s, height 0.8s;
+  color: transparent;
+  background-color: inherit;
+}
+
+@media (min-width: 650px) {
+
+  .submenu {
+    position: absolute;
+  }
+
+  .dropdown:hover .submenu {
+    height: 240px;
+    top: 22px;
+    color: #000;
+    transition: all 0.3s, height 0.8s;
+  }
+
+}
+
+.submenu li {
+  text-align: left;
+  padding: 3px 0;
+  color: #000;
+  border: 1px solid transparent;
+}
+
+nav .link:hover,
+nav .menu .current {
+  background-color: rgba(255, 165, 0, 0.8);
+  color: #000;
+  border-color: #000;
+}
+
+nav li.current a:hover {
+  cursor: default;
+}
+
+@media (min-width: 650px) {
+
+  .dropdown:hover .submenu {
+    height: 256px;
+    top: 24px;
+  }
+
+}
+
+@media (min-width: 1024px) {
+
+  .dropdown:hover .submenu {
+    height: 296px;
+    top: 29px;
+  }
+
+}
+
+.submenu li:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ffa500;
+}
+
+.dropdown .submenu li a:hover{
+  cursor: pointer;
+}
+
+/* MAIN CONTENT STYLES */
+
+.main {
+  position: relative;
+  color: #222;
+  /*text-shadow: 1px 1px 3px #fff;*/
+  text-shadow: 0px 0px 1px #fff;
+}
+
+.main h1 {
+  font-size: 20px;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.main h2 {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 600px) {
+
+  .main h1 {
+    font-size: 30px;
+  }
+
+  .main h2 {
+    font-size: 22px;
+  }
+
+}
+
+@media (min-width: 1024px) {
+
+  .main h1 {
+    font-size: 40px;
+    padding: 30px;
+  }
+
+}
+
+.main > section {
+  background-color: #ddd;
+  padding: 20px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+@media (min-width: 650px) {
+
+  .main > section {
+    margin-top: 20px;
+    max-width: 900px;
+    width: 80%;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+}
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.main a {
+  color: inherit;
+}
+
+.project-thumb {
+  position: relative;
+  width: 200px;
+  height: 170px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+  border: 2px solid #555;
+  box-shadow: 0 0 4px 0 #555;
+}
+
+@media (min-width: 750px) {
+
+  .project-thumb {
+    float: right;
+    margin-left: 30px;
+    top: -50px;
+  }
+
+}
+
+.project-thumb:hover {
+  border-style: dotted;
+}
+
+.project-thumb img {
+  width: 100%;
+}
+
+.project-forms section {
+  border-top: 2px solid #ccc;
+}
+
+.project-forms section::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* FOOTER AREA STYLES */
+
+footer p {
+  text-align: center;
+  margin: 0;
+  color: #888;
+  padding: 30px 20px;
+}
+
+@media (min-width: 600px) {
+
+  footer p {
+    padding: 50px 20px;
+  }
+
+}
