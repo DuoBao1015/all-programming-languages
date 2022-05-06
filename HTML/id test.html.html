@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Play map locations as a slideshow</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+    .map-overlay-container {
+        position: absolute;
+        width: 25%;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        z-index: 1;
+    }
+
+    .map-overlay {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        background-color: #fff;
+        border-radius: 3px;
+        padding: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .map-overlay h2,
+    .map-overlay p {
+        margin: 0 0 10px;
+    }
+</style>
+
+<div id="map"></div>
+
+<div class="map-overlay-container">
+    <div class="map-overlay">
+        <h2 id="location-title"></h2>
+        <p id="location-description"></p>
+        <small>Text credit:
+            <a target="_blank" href="https://www.artscabinet.org/repository/invitation-to-an-awe-walk">awe Walk</a></small>
+    </div>
+</div>
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic3RlZm5hYmFvIiwiYSI6ImNrenN5NGo5aDc3ZjMyc3R2YTdhZDJ6N2oifQ.OvkQvGEQ5R_mYwejwzwxKQ';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/stefnabao/cl1nvwk6w000115o6e9bqdy0v',
+        center: [-110.93342, 32.20814],
+        maxZoom: 16,
+        minZoom: 9,
+        zoom: 9.68
+    });
+
+    const title = document.getElementById('location-title');
+    const description = document.getElementById('location-description');
+
+    const locations = [
+        {
+            'id': '2',
+            'title': 'Sabino Canyon',
+            'description':
+                "Vinayaka T: Easy & fun hike. There's ample parking space too, Liz L: The desert is ALIVE!!! The website says, Come to Sabino to see water in the desert and they are NOT lying. There are cacti, flowers, so many butterflies, and yes, all kinds of water (raging river, big dam.)  People at the front desk were super nice and helpful with giving advice on where to go, and there were rangers spread throughout the canyon to give guidance as well. I was so blown away by the natural beauty of this terrain, at the greenery of it all. I have never seen a sky so blue.",
+            'camera': {
+                center: [-110.81431, 32.32034],
+                zoom: 12.21,
+                pitch: 50
+            }
+        },
+        {
+            'id': '3',
+            'title': 'Old Tucson',
+            'description':
+                "Michael Fleming: My family and I visited in 2000. Was very entertaining, from pictures with the bar mades to watching a western shoot out with bank robbers. You could even take a stage coach ride and get held up by bandits. Take a train ride with the kids around the studio or drive a small car around a track. Also, they had an area where you can pan for gold and many more things to do. Hopefully, they reopen soon and bring back all of the fun!",
+            'camera': {
+                center: [-111.13004, 32.22418],
+                bearing: -8.9,
+                zoom: 11.68
+            }
+        },
+        {
+            'id': '1',
+            'title': 'Arizona-Sonora Desert Museum',
+            'description':
+                'This place is great a great family place to visit. They have a ton of things for children as well as adults. Touching a stingray for the kids was really cool. There is something for everyone here. We liked seeing the mountain lions, wolves, snakes, reptiles, mineral rocks, birds, butterflies, botanical garden and the amazing views.  This is a must see when visiting Tucson. This is a A+++++ on my list.',
+            'camera': {
+                center: [-111.17100, 32.249558],
+                bearing: 25.3,
+                zoom: 11.5
+            }
+        },
+        {
+            'id': '4',
+            'title': 'Saguaro National Park',
+            'description':
+                "Saguaro, Saguaro everywhere.",
+            'camera': {
+                center: [-111.16968, 32.29565],
+                bearing: 36,
+                zoom: 11.37
+            }
+        },
+        {
+            'id': '5',
+            'title': 'Mt Lemmon',
+            'description':
+                'Picturesque Old West Americana at its finest! This was an incredible place to visit, and has an enriching topography that compels one to truly stand in awe of nature. Breathtaking and beautiful, this was a trip much enjoyed and a must if you’re in the Tucson area. Highly recommended!',
+            'camera': {
+                center: [-110.79056, 32.44802],
+                bearing: 28.4,
+                zoom: 11.64
+            }
+        },
+        {
+            'id': '6',
+            'title': 'Catalina Foothills',
+            'description':
+                'lee: o, wow, this place is great. Joy: this is great place,i love so much. Wang: so great place. K: you must go this place.',
+            'camera': {
+                center: [-110.91952, 32.29843],
+                zoom: 14.21,
+                bearing: 36,
+                pitch: 50
+            }
+        }
+    ];
+
+    function highlightBorough(code) {
+        // Only show the polygon feature that corresponds to `borocode` in the data.
+        map.setFilter('highlight', ['==', 'borocode', code]);
+    }
+
+    function playback(index) {
+        title.textContent = locations[index].title;
+        description.textContent = locations[index].description;
+
+        highlightBorough(locations[index].id ? locations[index].id : '');
+
+        // Animate the map position based on camera properties.
+        map.flyTo(locations[index].camera);
+
+        map.once('moveend', () => {
+            // Duration the slide is on screen after interaction.
+            window.setTimeout(() => {
+                // Increment index, looping back to the first after the last location.
+                index = (index + 1) % locations.length;
+                playback(index);
+            }, 3000); // After callback, show the location for 3 seconds.
+        });
+    }
+
+    // Display the last title/description first.
+    title.textContent = locations[locations.length - 1].title;
+    description.textContent = locations[locations.length - 1].description;
+
+    map.on('load', () => {
+        map.addSource('boroughs', {
+            'type': 'vector',
+            'url': 'mapbox://mapbox.8ibmsn6u'
+        });
+        map.addLayer(
+            {
+                'id': 'highlight',
+                'type': 'fill',
+                'source': 'boroughs',
+                'source-layer': 'original',
+                'paint': {
+                    'fill-color': '#fd6b50',
+                    'fill-opacity': 0.25
+                },
+                'filter': ['==', 'borocode', '']
+            },
+            // Place polygon under the neighborhood labels.
+            'settlement-subdivision-label'
+        );
+
+        // Start the playback animation for each borough.
+        playback(0);
+    });
+</script>
+
+</body>
+</html>
