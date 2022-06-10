@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	<title>Show and hide layers</title>
+	<meta name="viewport" content="initial-scale=18,maximum-scale=1,user-scalable=yes" />
+	<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+	<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<style>
+	*{
+		margin: 0;
+		margin: 0;
+	}
+	body,html{
+		
+	}
+	#map {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    width: 100%;
+	}
+	#menu{
+		    position: absolute;
+		    z-index: 100;
+		    top: 200px;
+		    right: 20px;
+		    border-radius: 1px;
+		    width: 100px;
+		    font-family: 'Open Sans', sans-serif;
+          background-color: rgba(0,0,0,0.5);
+		}
+		.nav_box{
+			overflow: hidden;
+		}
+		.nav_item{
+			float: left;width: 80%;
+		}
+		.nav_item a{
+			display: block;
+			width: 80px; /*X-space between*/
+			border-radius: 20px;
+			font-size: 19px; /*text size in menu*/
+			text-align: center;
+			margin-bottom: 10px;
+			word-break:break-all;
+			padding: 3px;
+			line-height: 10px;/*Y-space hight*/
+			cursor: pointer;
+			transition: all .2s ease;
+		}
+		.nav_item a:hover{
+			background-color: rgba(0,0,0,.1);
+		}
+		.active_on{
+			background-color: rgba(0,0,0,.18);
+			/* color: #fff !important; */
+		}
+		a{
+			color: black; /*'all' and 'clear' color*/
+		}
+		.cln {
+			text-align: center;
+			padding-bottom: 10px;
+			color: #3074a4;
+		}
+		.cln a{
+			margin: 10px; /* space between the 'all' and 'clean' */
+			font-size: 18px; /*'all' and 'clean' text size*/
+		}
+	</style>
+	
+	</head>
+	<body>
+		<nav id="menu">
+			<div class="cln">
+				<a>ALL</a>
+				<a>CLEAR</a>
+			</div>
+			<div class="nav_box">
+			<div class="nav_item AMERICAS">
+            <a style="color:rgba(110, 119, 206,0.5) ;">1940</a>
+
+			</div>	
+			</div>
+			
+		</nav>
+
+
+
+   <div id="map"></div>
+   <script>
+      mapboxgl.accessToken = 'pk.eyJ1Ijoic2NvdHRtYWhveSIsImEiOiJjajMzY3JuYmMwMGE1MndxNjQwdHFxZm0zIn0.Wg6c630lEtSOEuqpRDvItw';
+      var map = new mapboxgl.Map({
+         container: 'map',
+         style: 'mapbox://styles/scottmahoy/ckiaq0k4h7vlv19phjm8hvnyq',
+         zoom: 10,
+         center: [-118.25, 33.9]
+      });
+      map.on('load', function () {
+         // Year for 1940
+         map.addSource('1940', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.2y85x44b'
+         });//end addsource
+         map.addLayer({
+            'id': '1940',
+            'type': 'fill',
+            'source': '1940',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 119, 206,1)'
+            },
+            'source-layer':
+            '1940-7fhro2'
+         });
+
+         // Year for 1940
+         map.addSource('1940', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.5vx45djp'
+         });//end addsource
+         map.addLayer({
+            'id': '1940',
+            'type': 'fill',
+            'source': '1940',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 119, 206,1)'
+            },
+            'source-layer':
+            '1940-9fyut9'
+         });
+
+         // Year for 1940
+         map.addSource('1940', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.244w9mga'
+         });//end addsource
+         map.addLayer({
+            'id': '1940',
+            'type': 'fill',
+            'source': '1940',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 119, 206,1)'
+            },
+            'source-layer':
+            '1940-2ujgai'
+         });
+
+         // Year for 1940
+         map.addSource('1940', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.0tsn9x6o'
+         });//end addsource
+         map.addLayer({
+            'id': '1940',
+            'type': 'fill',
+            'source': '1940',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 119, 206,1)'
+            },
+            'source-layer':
+            '1940-1btegf'
+         });
+
+         // Year for 1940
+         map.addSource('1940', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.1sdneaor'
+         });//end addsource
+         map.addLayer({
+            'id': '1940',
+            'type': 'fill',
+            'source': '1940',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 119, 206,1)'
+            },
+            'source-layer':
+            '1940-5t13xa'
+         });
+
+         // Year for 1940
+         map.addSource('1940', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.6xh0p152'
+         });//end addsource
+         map.addLayer({
+            'id': '1940',
+            'type': 'fill',
+            'source': '1940',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 119, 206,1)'
+            },
+            'source-layer':
+            '1940-2iuhos'
+         });
+
+         // Year for 1940
+         map.addSource('1940', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.2gk1vnly'
+         });//end addsource
+         map.addLayer({
+            'id': '1940',
+            'type': 'fill',
+            'source': '1940',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 119, 206,1)'
+            },
+            'source-layer':
+            '1940-ayh1g2'
+         });
+
+         map.addLayer({
+            'id': 'ALL'
+         });
+
+         map.addLayer({
+            'id': 'CLEAR'
+         })
+
+      });//end onload function
+
+
+	var btns=$('#menu a')
+	 btns.each(function(){
+		$(this).click(function(e){
+			var clickedLayer = $(this).text();
+			if (clickedLayer == 'ALL') {
+			btns.each(function(index){
+				var layer = btns.eq(index).text();
+				var visibility = map.getLayoutProperty(layer, 'visibility');
+				if (visibility == 'none') {
+				   map.setLayoutProperty(layer, 'visibility', 'visible');
+				   this.className = '';
+					 $('#menu a').eq(index).addClass('active_on');
+				}
+				else {
+				   this.className = 'active';
+				   map.setLayoutProperty(layer, 'visibility', 'none');
+				}
+			})
+			     
+			}//
+			
+			if (clickedLayer == 'CLEAR') {
+			 btns.each(function(index){
+			 	var layer = btns.eq(index).text();
+			      var visibility = map.getLayoutProperty(layer, 'visibility');
+			      if (visibility == 'visible') {
+			         map.setLayoutProperty(layer, 'visibility', 'none');
+					 $('#menu a').eq(index).removeClass('active_on');
+			         this.className = '';
+			      }
+			  })
+			}//
+			
+			
+			var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+			if (visibility === 'none') {
+			   map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+			   this.className = 'active_on';
+			   
+			} 
+			else {
+			   this.className = 'active';
+			   map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+			}
+			
+			//
+		});
+		
+		if (map.getLayer("cluster-count")) {
+		   map.removeLayer("cluster-count");
+		}
+		
+		
+	})
+
+
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+map.add
+ 
+</script>
+ 
+<script>
+
+</script>
+ 
+	</body>
+</html>
