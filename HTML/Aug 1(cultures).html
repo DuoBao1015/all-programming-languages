@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	<title>Show and hide layers</title>
+	<meta name="viewport" content="initial-scale=18,maximum-scale=1,user-scalable=yes" />
+	<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+	<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+	<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<style>
+	*{
+		margin: 0;
+		margin: 0;
+	}
+	body,html{
+		
+	}
+	#map {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    width: 100%;
+	}
+	#menu{
+		    position: absolute;
+		    z-index: 100;
+		    top: 60px;
+		    right: 40px;
+		    border-radius: 1px;
+		    width: 422px;
+		    font-family: 'Open Sans', sans-serif;
+          background-color: rgba(255,255,255, 0.9);
+		}
+		.nav_box{
+			overflow: hidden;
+		}
+	  /*title part*/
+		#Cultures {
+		   position: absolute;
+		   top: 25px;
+		   right: 45px;
+		   font-size: 20px;
+		   color: #3074a4;
+         font-family: 'Open Sans', sans-serif;
+         background-color: rgba(255,255,255, 0.9);
+         background-size: 200px 50px;
+         float: left;width: 30%;
+		}
+		.nav_item{
+			float: left;width: 25%;
+		}
+		.nav_item a{
+			display: block;
+			width: 98px; /*X-space between*/
+			border-radius: 20px;
+			font-size: 12px; /*text size in menu*/
+			text-align: center;
+			margin-bottom: 10px;
+			word-break:break-all;
+			padding: 3px;
+			line-height: 10px;/*Y-space hight*/
+			cursor: pointer;
+			transition: all .2s ease;
+		}
+		.nav_item a:hover{
+			background-color: rgba(0,0,0,.1);
+		}
+		.active_on{
+			background-color: rgba(0,0,0,.18);
+			/* color: #fff !important; */
+		}
+		a{
+			color: black; /*'all' and 'clear' color*/
+		}
+		.cln {
+			text-align: center;
+			padding-bottom: 10px;
+			color: #3074a4;
+		}
+		.cln a{
+			margin: 10px; /* space between the 'all' and 'clean' */
+			font-size: 18px; /*'all' and 'clean' text size*/
+		}
+		@media(max-width:763px){
+			#menu{
+		    top: 0px;
+		    right: 0px;
+		    width: 50%;
+		}
+			.nav_item a{
+			display: block;
+			width: auto; /*X-space between*/
+		
+			font-size: 12px; /*text size in menu*/
+			
+			padding: 1px;
+		
+		}
+		}
+	</style>
+	
+	</head>
+	<body>
+		<nav id="menu">
+			<div class="cln">
+				<a>ALL</a>
+				<a>CLEAR</a>
+			</div>
+			<div class="nav_box">
+				<div class="nav_item AfricaPacficMiddleeast">
+					<a style="color:rgba(215, 140, 40,0.5) ;"><b>AFRICAPACFICMIDDLEEAST</b></a>
+					<a style="color:rgba(215, 140, 40,0.5) ;">Afghani</a>
+					<a style="color:rgba(230,98,0,0.5);">Armenian</a>
+					<a style="color:rgba(248, 153, 56, 0.5)  ;">Ethiopian</a>
+					<a style="color: rgba(242, 105, 58, 0.5);">Iranian</a>
+					<a style="color:rgba(246, 145, 30,0.5) ;">Israeli</a>
+					<a style="color: rgba(157, 71, 36, 0.5) ;">Moroccan</a>
+					<a style="color:rgba(244, 120, 67, 0.5) ;">Samoan</a>
+				</div>
+
+				<div class="nav_item ASIA">
+					<a style="color: rgba(70, 139, 184, 0.5);"><b>ASIA</b></a>
+					<a style="color:rgba(51, 153, 153, 0.5) ;">Bangladeshi</a>
+					<a style="color: rgba(102, 153, 153, 0.5);">Cambodian</a>
+					<a style="color: rgb(80,190,154,0.5) ;">Chinese</a>
+					<a style="color: rgba(72, 194, 197, 0.5);">Fillipino</a>
+					<a style="color: rgba( 93, 111, 163,0.5);">India</a>
+					<a style="color:rgba(77, 140, 196, 0.5) ;">Indonesian</a>
+					<a style="color:rgba(91, 126, 191, 0.5) ;">Japanese</a>
+					<a style="color: rgba(32, 65, 151, 0.5) ;">Korean</a>
+					<a style="color: rgba(81, 130, 194, 0.5);">Malaysian</a>
+					<a style="color: rgba(57, 192, 196, 0.5);">Mongolian</a>
+					<a style="color: rgba(82, 195, 195, 0.5);">Myanmar</a>
+					<a style="color: rgba(72, 194, 197, 0.6);">Nepalese</a>
+					<a style="color: rgba(12, 140, 142, 0.5);">Pakistani</a>
+					<a style="color: rgba(70, 107, 179, 0.5);">Russian</a>
+					<a style="color: rgba(102, 153, 153,  0.5) ;">Sri-Lankan</a>
+					<a style="color:rgba(51, 153, 153, 0.5) ;">Taiwanese</a>
+					<a style="color:rgba(0,153, 153, 0.5);">Thai</a>
+					<a style="color: rgba(114, 146, 203, 0.5);">Vietnamese</a>
+				
+				</div>
+			<div class="nav_item AMERICAS">
+				<a style="color:rgba(175, 49, 146, 0.5)  ;"><b>AMERICAS</b></a>
+				<a style="color:rgba(189, 32, 38,0.5) ;">African-American</a>
+				<a style="color:rgba(141,66,128,0.5) ;">Antigua-Barbudan</a>
+				<a style="color:rgba(122, 87, 164,0.5) ;">Barbadian</a>
+				<a style="color:rgba(134,76,158,0.5 ) ;">Belizean</a>
+				<a style="color:rgba(185, 82, 159,0.5) ;">Brazilian</a>
+				<a style="color:rgba(184, 107, 172,0.5) ;">Chilean</a>
+				<a style="color:rgba(172, 77, 157, 0.5) ;">Colombian</a>
+				<a style="color:rgba(162,113, 176, 0.5) ;">Costa-Rican</a>
+				<a style="color:rgba(153, 86, 162, 0.5) ;">Cuban</a>
+				<a style="color:rgba(191, 89, 162, 0.5);">Curacaoan</a>
+				<a style="color:rgba(168, 68, 153, 0.5) ;">El-Salvadoran</a>
+				<a style="color: rgba(172, 77, 157, 0.5) ;">Guatemalan</a>
+            <a style="color: rgba(184, 107, 172, 0.5);">Honduran</a>
+				<a style="color: rgba(185, 82, 159,0.5);">Jamaican</a>
+				<a style="color:rgba(237, 30, 99, 0.5) ;">Mexican</a>
+				<a style="color:rgba(210, 83, 158, 0.5);">Peruvian</a>
+				<a style="color: rgba(181, 94, 165, 0.5);">Nicaraguan</a>
+				<a style="color: rgba(204, 102, 153, 0.5);">Puerto-Rican</a>
+				<a style="color: rgba(226, 111, 171, 0.5);">Trinidadian-and-Tobagonian</a>
+				<a style="color:rgba(240, 101, 151,0.5) ;">Venezuelan</a>
+			</div>
+				
+				<div class="nav_item EUROPE">
+					<a style="color: rgba(69, 182, 73, 0.5);"><b>EUROPE</b></a>
+					<a style="color:rgba(111, 190, 68, 0.5) ;">Belgian</a>
+					<a style="color:rgba(101, 154, 65, 0.5) ;">British</a>
+					<a style="color:rgba(135, 197, 64, 0.5) ;">Croatian</a>
+					<a style="color: rgba( 139, 151, 57, 0.5);">Dutch</a>
+					<a style="color:rgba(118, 192, 67, 0.5)  ;">French</a>
+					<a style="color: rgba(110, 190, 68 , 0.5) ;">German</a>
+					<a style="color: rgba(63, 183, 96, 0.5) ;">Greek</a>
+					<a style="color: rgba(52, 154, 70, 0.5);">Italian</a>
+					<a style="color:rgba(83, 186, 107, 0.5)  ;">Lithuanian</a>
+					<a style="color: rgba(20, 129, 64,0.5);">Macedonian</a>
+					<a style="color:rgba(72, 187, 131, 0.5) ;">Portuguese</a>
+					<a style="color: rgba(29, 183, 146, 0.5) ;">Spanish</a>
+					<a style="color: rgba( 64, 171, 147, 0.5);">Swedish</a>
+					<a style="color:rgba(0, 151, 125, 0.5)  ;">Swiss</a>
+				</div>		
+				
+			</div>
+			
+		</nav>
+
+
+
+   <div id="map"></div>
+   <div id="Cultures">CULTURAL HUBS IN LOS ANGELES</div>
+   <script>
+      mapboxgl.accessToken = 'pk.eyJ1Ijoic2NvdHRtYWhveSIsImEiOiJjajMzY3JuYmMwMGE1MndxNjQwdHFxZm0zIn0.Wg6c630lEtSOEuqpRDvItw';
+      var map = new mapboxgl.Map({
+         container: 'map',
+         style: 'mapbox://styles/scottmahoy/cl3jehb0f000j14n7t9oy4vud',
+         zoom: 8.5,
+         center: [-118.10, 33.9]
+      });
+      map.on('load', function () {
+      // add source and layer for spanish
+         map.addSource('Chinese', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.btrajhgv'
+         });//end addsource
+         map.addLayer({
+            'id': 'Chinese',
+            'type': 'fill',
+            'source': 'Chinese',
+            'layout': {
+               // make layer visible by default
+               'visibility': 'none'
+            },//end layout
+            'paint': {
+               //'circle-radius': 2,
+               'fill-color': 'rgba(80, 190, 154,0.5)'
+            },//end paint
+            'source-layer':
+            'Chinese_DictionaryLanguage-20-bf8gl1'
+         });//end addLayer
+            
+         // add source and layer
+         map.addSource('African American', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.4ngwbqrq'
+         });//end addsource
+         map.addLayer({
+            'id': 'African-American',
+            'type': 'fill',
+            'source': 'African American',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(200, 20, 0,0.5)'
+            },
+            'source-layer':
+            'AfricanAmerican-20220412T1912-1dtflt'
+         });
+  
+         map.addSource('Afghani', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.4xgxwdc9'
+         });//end addsource
+         map.addLayer({
+            'id': 'Afghani',
+            'type': 'fill',
+            'source': 'Afghani',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(215, 140, 40,0.5)'
+            },
+            'source-layer':
+            'Afghanistan-20220405T033714Z--15txtb'
+         });
+  
+         map.addSource('Brazilian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.4hacd44k'
+         });//end addsource
+         map.addLayer({
+            'id': 'Brazilian',
+            'type': 'fill',
+            'source': 'Brazilian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(185, 82, 159,0.5)'
+            },
+            'source-layer':
+            'Brazil-20220413T062528Z-001-3dobva'
+         });
+  
+         map.addSource('Antigua', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.d3rcra67'
+         });//end addsource
+         map.addLayer({
+            'id': 'Antigua-Barbudan',
+            'type': 'fill',
+            'source': 'Antigua',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(141, 66, 128, 0.5)'
+            },
+            'source-layer':
+            'AntiguaandBarbuda-20220413T06-18v8xi'
+         });
+ 
+         map.addSource('Armenian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.blchf7sp'
+         });//end addsource
+         map.addLayer({
+            'id': 'Armenian',
+            'type': 'fill',
+            'source': 'Armenian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(171, 119, 43, 0.5)'
+            },
+            'source-layer':
+            'Armenia-20220421T185954Z-001-1m58e9'
+         });
+ 
+         map.addSource('Bangladeshi', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.2xilvw1b'
+         });//end addsource
+         map.addLayer({
+            'id': 'Bangladeshi',
+            'type': 'fill',
+            'source': 'Bangladeshi',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(51, 153, 153, 0.5)'
+            },
+            'source-layer':
+            'Bangladesh-20220421T190627Z-0-aodpjp'
+         });
+ 
+         map.addSource('Barbadian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.ast5dsra'
+         });//end addsource
+         map.addLayer({
+            'id': 'Barbadian',
+            'type': 'fill',
+            'source': 'Barbadian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(122, 87, 164,0.5)'
+            },
+            'source-layer':
+            'Barbados-20220421T191015Z-001-bomyzb'
+         });
+ 
+         map.addSource('Belgian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.d5l82fbv'
+         });//end addsource
+         map.addLayer({
+            'id': 'Belgian',
+            'type': 'fill',
+            'source': 'Belgian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(111, 190, 68, 0.5)'
+            },
+            'source-layer':
+            'Belgium-20220421T192337Z-001-bebvcw'
+         });
+
+         map.addSource('Belize', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.bqdbcjh8'
+         });//end addsource
+         map.addLayer({
+            'id': 'Belizean',
+            'type': 'fill',
+            'source': 'Belize',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(218, 175, 106, 0.6)'
+            },
+            'source-layer':
+            'Belize-20220515T210236Z-001-5m5k9x'
+         })
+
+         map.addSource('British', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.anrtkbf2'
+         });//end addsource
+         map.addLayer({
+            'id': 'British',
+            'type': 'fill',
+            'source': 'British',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(101, 154, 65, 0.5)'
+            },
+            'source-layer':
+            'UnitedKingdom-20220502T213614-8yoxz2'
+         });
+
+         map.addSource('Chilean', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.3lo61p04'
+         });//end addsource
+         map.addLayer({
+            'id': 'Chilean',
+            'type': 'fill',
+            'source': 'Chilean',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(184, 107, 172,0.5)'
+            },
+            'source-layer':
+            'Chile-20220421T192423Z-001-3iu1de'
+         });
+ 
+         map.addSource('Colombian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.apnkt21q'
+         });//end addsource
+         map.addLayer({
+            'id': 'Colombian',
+            'type': 'fill',
+            'source': 'Colombian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+            'fill-color': 'rgba(172, 77, 157, 0.5)'
+            },
+            'source-layer':
+            'Colombia-20220421T193027Z-001-axxuyp'
+         });
+ 
+         map.addSource('Cambodia', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.23zdp5ob'
+         });//end addsource
+         map.addLayer({
+            'id': 'Cambodian',
+            'type': 'fill',
+            'source': 'Cambodia',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(102, 153, 153, 0.5)'
+            },
+            'source-layer':
+            'Combodia-20220421T193031Z-001-bevplh'
+         });
+
+         map.addSource('CostaRican', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.2zllc7ak'
+         });//end addsource
+         map.addLayer({
+            'id': 'Costa-Rican',
+            'type': 'fill',
+            'source': 'CostaRican',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(162, 113, 176, 0.5)'
+            },
+            'source-layer':
+            'CostaRica-20220517T061230Z-00-2mpsyl'
+         });
+
+         map.addSource('Croatian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.5gjvr3y3'
+         });//end addsource
+         map.addLayer({
+            'id': 'Croatian',
+            'type': 'fill',
+            'source': 'Croatian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(135, 197, 64, 0.5)'
+            },
+            'source-layer':
+            'Croatia-20220421T193040Z-001-3f3rd4'
+         });
+ 
+         map.addSource('Cuban', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.5ncq8dbd'
+         });//end addsource
+         map.addLayer({
+            'id': 'Cuban',
+            'type': 'fill',
+            'source': 'Cuban',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(153, 86, 162, 0.5)'
+            },
+            'source-layer':
+            'Cuba-20220421T193043Z-001-96p0kh'
+         });
+ 
+         map.addSource('Curaceon', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.8tkyv7mb'
+         });//end addsource
+         map.addLayer({
+            'id': 'Curacaoan',
+            'type': 'fill',
+            'source': 'Curaceon',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(191, 89, 162, 0.5)'
+            },
+            'source-layer':
+            'Curacao-20220421T193046Z-001-7qztzi'
+         });
+
+         map.addSource('Dutch', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.7yi5onu5'
+         });//end addsource
+         map.addLayer({
+            'id': 'Dutch',
+            'type': 'fill',
+            'source': 'Dutch',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba( 139, 151, 57, 0.5)'
+            },
+            'source-layer':
+            'Netherlands-20220425T174626Z--47rgrq'
+         });
+
+         map.addSource('El Salvadoran', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.7u7hj6eg'
+         });//end addsource
+         map.addLayer({
+            'id': 'El-Salvadoran',
+            'type': 'fill',
+            'source': 'El Salvadoran',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(168, 68, 153, 0.5)'
+            },
+            'source-layer':
+            'ElSalvador-20220421T194928Z-0-49uh4v'
+         });
+ 
+         map.addSource('Ethiopian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.0jbgxm0b'
+         });//end addsource
+         map.addLayer({
+            'id': 'Ethiopian',
+            'type': 'fill',
+            'source': 'Ethiopian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(248, 153, 56, 0.5)'
+            },
+            'source-layer':
+            'Ethiopia-20220421T194930Z-001-8yk11f'
+         });
+ 
+         map.addSource('French', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.ch2mzasz'
+         });//end addsource
+         map.addLayer({
+            'id': 'French',
+            'type': 'fill',
+            'source': 'French',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(118, 192, 67, 0.5)'
+            },
+            'source-layer':
+            'France-20220421T194932Z-001-1217lt'
+         });
+ 
+         map.addSource('German', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.cvjlli95'
+         });//end addsource
+  
+         map.addLayer({
+            'id': 'German',
+            'type': 'fill',
+            'source': 'German',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(110, 190, 68 , 0.5)'
+            },
+            'source-layer':
+            'Germany-20220421T194941Z-001-9ih8g9'
+         });
+ 
+         map.addSource('Greek', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.1pyybkfz'
+         });//end addsource
+         map.addLayer({
+            'id': 'Greek',
+            'type': 'fill',
+            'source': 'Greek',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(63, 183, 96, 0.5)'
+            },
+            'source-layer':
+            'Greece-20220421T194944Z-001-beedo2'
+         });
+ 
+         map.addSource('Guatemalan', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.2ozxmjga'
+         });//end addsource
+         map.addLayer({
+            'id': 'Guatemalan',
+            'type': 'fill',
+            'source': 'Guatemalan',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(172, 77, 157, 0.5)'/*rgba(0,153, 153, 0.5)*/
+            },
+            'source-layer':
+            'Guatemala-20220421T194947Z-00-d7siab'
+         });
+ 
+         map.addSource('Honduran', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.6ezfzmzl'
+         });//end addsource
+         map.addLayer({
+            'id': 'Honduran',
+            'type': 'fill',
+            'source': 'Honduran',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(184, 107, 172, 0.5)'
+            },
+            'source-layer':
+            'Honduras-20220421T194950Z-001-043alu'
+         });
+ 
+         map.addSource('India', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.72tol0pz'
+         });//end addsource
+         map.addLayer({
+            'id': 'India',
+            'type': 'fill',
+            'source': 'India',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba( 93, 111, 163,0.5)'
+            },
+            'source-layer':
+            'India-20220421T194952Z-001-a9exwi'
+         });
+ 
+         map.addSource('Indonesian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.43q79gmd'
+         });//end addsource
+         map.addLayer({
+            'id': 'Indonesian',
+            'type': 'fill',
+            'source': 'Indonesian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(77, 140, 196, 0.5)'
+            },
+            'source-layer':
+            'Indonesia-20220421T194954Z-00-0bfdcn'
+         });
+ 
+         map.addSource('Iranian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.331v6xx7'
+         });//end addsource
+         map.addLayer({
+            'id': 'Iranian',
+            'type': 'fill',
+            'source': 'Iranian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(242, 105, 58, 0.5)'
+            },
+            'source-layer':
+            'Iran-20220421T214313Z-001-0hpo9i'
+         });
+ 
+         map.addSource('Israeli', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.4fbllns4'
+         });//end addsource
+         map.addLayer({
+            'id': 'Israeli',
+            'type': 'fill',
+            'source': 'Israeli',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(246, 145, 30,0.5)'
+            },
+            'source-layer':
+            'Israel-20220421T214315Z-001-0ilpd3'
+         });
+ 
+         map.addSource('Italian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.9rfi9yvr'
+         });//end addsource
+         map.addLayer({
+            'id': 'Italian',
+            'type': 'fill',
+            'source': 'Italian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(52, 154, 70, 0.5)'
+            },
+            'source-layer':
+            'Italy-20220421T214319Z-001-5r3jpz'
+         });
+ 
+         map.addSource('Jamaican', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.63x8rfsk'
+         });//end addsource
+         map.addLayer({
+            'id': 'Jamaican',
+            'type': 'fill',
+            'source': 'Jamaican',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(185, 82, 159,0.5)'
+            },
+            'source-layer':
+            'Jamaica-20220421T214321Z-001-3rn82e'
+         });
+ 
+         map.addSource('Japanese', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.2tu7vh8a'
+         });//end addsource
+         map.addLayer({
+            'id': 'Japanese',
+            'type': 'fill',
+            'source': 'Japanese',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(91, 126, 191, 0.5)'
+            },
+            'source-layer':
+            'Japanese_DictionaryLanguage-2-9m8oq6'
+         });
+ 
+         map.addSource('Korean', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.3mmwqrgw'
+         });//end addsource
+         map.addLayer({
+            'id': 'Korean',
+            'type': 'fill',
+            'source': 'Korean',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'RGBA(32, 65, 151, 0.5)'
+            },
+            'source-layer':
+            'Korea_DictionaryLanguage-2022-d42uwb'
+         });
+ 
+         map.addSource('Lithuanian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.54wupf2e'
+         });//end addsource
+         map.addLayer({
+            'id': 'Lithuanian',
+            'type': 'fill',
+            'source': 'Lithuanian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(83, 186, 107, 0.5)'
+            },
+            'source-layer':
+            'Lithuania-20220421T214340Z-00-5fe0w1'
+         });
+ 
+         map.addSource('Macedonia', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.9kkl81tc'
+         });//end addsource
+         map.addLayer({
+            'id': 'Macedonian',
+            'type': 'fill',
+            'source': 'Macedonia',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(20, 129, 64,0.5)'
+            },
+            'source-layer':
+            'Macedonia-20220421T233011Z-00-8ng14p'
+         });
+ 
+         map.addSource('Malaysian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.0syqlf01'
+         });//end addsource
+         map.addLayer({
+            'id': 'Malaysian',
+            'type': 'fill',
+            'source': 'Malaysian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(81, 130, 194, 0.5)'
+            },
+            'source-layer':
+            'Malaysia-20220421T233013Z-001-3rudi6'
+         });
+ 
+         map.addSource('Mexican', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.d3q0eo50'
+         });//end addsource
+         map.addLayer({
+            'id': 'Mexican',
+            'type': 'fill',
+            'source': 'Mexican',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(237, 30, 99, 0.5)'
+            },
+            'source-layer':
+            'Mexico_Culture-20220421T23301-ck6i3i'
+         });
+
+         map.addSource('Moroccan', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.3ar4gn71'
+         });//end addsource
+         map.addLayer({
+            'id': 'Moroccan',
+            'type': 'fill',
+            'source': 'Moroccan',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(157, 71, 36, 0.5)'
+            },
+            'source-layer':
+            'Morocco-20220517T072501Z-001-7maj9s'
+         });
+ 
+         map.addSource('Mongolian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.93ao8600'
+         });//end addsource
+         map.addLayer({
+            'id': 'Mongolian',
+            'type': 'fill',
+            'source': 'Mongolian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(57, 192, 196, 0.5)'
+            },
+            'source-layer':
+            'Mongolia-20220421T233021Z-001-agrhtt'
+         });
+
+         map.addSource('Myanmar', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.268zumi1'
+         });//end addsource
+  
+         map.addLayer({
+            'id': 'Myanmar',
+            'type': 'fill',
+            'source': 'Myanmar',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(82, 195, 195, 0.5)'
+            },
+            'source-layer':
+            'Myanmar-20220425T092949Z-001-az3bvd'
+         });
+ 
+         map.addSource('Nepalese', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.dqg0ka97'
+         });//end addsource
+  
+         map.addLayer({
+            'id': 'Nepalese',
+            'type': 'fill',
+            'source': 'Nepalese',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(72, 194, 197, 0.6)'
+            },
+            'source-layer':
+            'Nepal-20220425T092958Z-001-7zl17b'
+         });
+
+         map.addSource('Nicaraguan', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.b3p4fmcy'
+         });//end addsource
+         map.addLayer({
+            'id': 'Nicaraguan',
+            'type': 'fill',
+            'source': 'Nicaraguan',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(181, 94, 165, 0.5)'
+            },
+            'source-layer':
+            'Nicaragua-20220425T174549Z-00-1kowbp'
+         });
+
+         map.addSource('Pakistani', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.aula16nx'
+         });//end addsource
+         map.addLayer({
+            'id': 'Pakistani',
+            'type': 'fill',
+            'source': 'Pakistani',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(12, 140, 142, 0.5)'
+            },
+            'source-layer':
+            'Pakistan-20220429T222123Z-001-1mbgok'
+         });
+
+         map.addSource('Peruvian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.a4i26qmn'
+         });//end addsource
+         map.addLayer({
+            'id': 'Peruvian',
+            'type': 'fill',
+            'source': 'Peruvian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(210, 83, 158, 0.5)'
+            },
+            'source-layer':
+            'Peru-20220425T093002Z-001-90mxvv'
+         });
+
+         map.addSource('Fillipino', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.8nro88vu'
+         });//end addsource
+         map.addLayer({
+            'id': 'Fillipino',
+            'type': 'fill',
+            'source': 'Fillipino',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(72, 194, 197, 0.5)'
+            },
+            'source-layer':
+            'Phillipine-20220425T093005Z-0-9fs8cl'
+         });
+
+         map.addSource('Portuguese', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.4znevkug'
+         });//end addsource
+         map.addLayer({
+            'id': 'Portuguese',
+            'type': 'fill',
+            'source': 'Portuguese',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(72, 187, 131, 0.5)'
+            },
+            'source-layer':
+            'Portugal-20220425T093007Z-001-20oom5'
+         });
+
+         map.addSource('PuertoRican', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.byeyk1pm'
+         });//end addsource
+         map.addLayer({
+            'id': 'Puerto-Rican',
+            'type': 'fill',
+            'source': 'PuertoRican',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(204, 102, 153, 0.5)'
+            },
+            'source-layer':
+            'PuertoRico-20220502T191742Z-0-3a9tc8'
+         });
+
+         map.addSource('Russian', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.9cxbwxkw'
+         });//end addsource
+         map.addLayer({
+            'id': 'Russian',
+            'type': 'fill',
+            'source': 'Russian',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(70, 107, 179, 0.5)'
+            },
+            'source-layer':
+            'Russia-20220502T192021Z-001-430piy'
+         });
+
+         map.addSource('Samoan', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.8z8wlpy1'
+         });//end addsource
+         map.addLayer({
+            'id': 'Samoan',
+            'type': 'fill',
+            'source': 'Samoan',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(244, 120, 67, 0.5)'
+            },
+            'source-layer':
+            'Samoa-20220502T192351Z-001-8fhu1e'
+         });
+
+         map.addSource('Spanish', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.5kwm7zn0'
+         });//end addsource
+         map.addLayer({
+            'id': 'Spanish',
+            'type': 'fill',
+            'source': 'Spanish',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(29, 183, 146, 0.5)'
+            },
+            'source-layer':
+            'spa-aweugl'
+         });
+
+         map.addSource('Sri Lankan', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.8j1eyrj2'
+         });//end addsource
+         map.addLayer({
+            'id': 'Sri-Lankan',
+            'type': 'fill',
+            'source': 'Sri Lankan',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(102, 153, 153,  0.5)'
+            },
+            'source-layer':
+            'SriLanka-20220502T211826Z-001-3bhwfm'
+         });
+
+         map.addSource('Swedish', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.dbvqqhay'
+         });//end addsource
+         map.addLayer({
+            'id': 'Swedish',
+            'type': 'fill',
+            'source': 'Swedish',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba( 64, 171, 147, 0.5)'
+            },
+            'source-layer':
+            'Sweden-20220502T213604Z-001-29zgzp'
+         });
+
+         map.addSource('Swiss', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.4svgecqb'
+         });//end addsource
+         map.addLayer({
+            'id': 'Swiss',
+            'type': 'fill',
+            'source': 'Swiss',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(0, 151, 125, 0.5)'
+            },
+            'source-layer':
+            'Switzerland-20220502T213605Z--ap9swt'
+         });
+
+         map.addSource('Taiwanese', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.6z5noq7w'
+         });//end addsource
+         map.addLayer({
+            'id': 'Taiwanese',
+            'type': 'fill',
+            'source': 'Taiwanese',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(51, 153, 153, 0.5)'
+            },
+            'source-layer':
+            'Taiwan-20220502T213607Z-001-77e028'
+         });
+
+         map.addSource('Thai', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.2m3jlt5x'
+         });//end addsource
+         map.addLayer({
+            'id': 'Thai',
+            'type': 'fill',
+            'source': 'Thai',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(0,153, 153, 0.5)'/*rgba(172, 77, 157, 0.5)*/
+            },
+            'source-layer':
+            'Thailand-20220502T215447Z-001-349bkx'
+         });
+
+         map.addSource('Trinidad', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.8mljbapv'
+         });//end addsource
+         map.addLayer({
+            'id': 'Trinidadian-and-Tobagonian',
+            'type': 'fill',
+            'source': 'Trinidad',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(226, 111, 171,0.5)'
+            },
+            'source-layer':
+            'TrinidadTobago-20220502T21361-3s7qi0'
+         });
+
+         map.addSource('Venezuelan', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.6s27dpgk'
+         });//end addsource
+         map.addLayer({
+            'id': 'Venezuelan',
+            'type': 'fill',
+            'source': 'Venezuelan',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(240, 101, 151,0.5)'
+            },
+            'source-layer':
+            'Venezuela-20220502T213616Z-00-2g9mkk'
+         });
+
+         map.addSource('Vietnamese', {
+            type: 'vector',
+            url: 'mapbox://scottmahoy.28qxu1rv'
+         });//end addsource
+         map.addLayer({
+            'id': 'Vietnamese',
+            'type': 'fill',
+            'source': 'Vietnamese',
+            'layout': {
+               'visibility': 'none'
+            },
+            'paint': {
+               'fill-color': 'rgba(114, 146, 203, 0.5)'
+            },
+            'source-layer':
+            'Vietnam-20220502T213618Z-001-5f73ai'
+         });
+
+         map.addLayer({
+            'id': 'ALL'
+         });
+
+         map.addLayer({
+            'id': 'CLEAR'
+         })
+
+         map.addLayer({
+            'id': 'ASIA'
+         })
+
+      });//end onload function
+
+
+	var btns=$('#menu a')
+	 btns.each(function(){
+		$(this).click(function(e){
+			var clickedLayer = $(this).text();
+			if (clickedLayer == 'ALL') {
+			btns.each(function(index){
+				var layer = btns.eq(index).text();
+				var visibility = map.getLayoutProperty(layer, 'visibility');
+				if (visibility == 'none') {
+				   map.setLayoutProperty(layer, 'visibility', 'visible');
+				   this.className = '';
+					 $('#menu a').eq(index).addClass('active_on');
+				}
+				else {
+				   this.className = 'active';
+				   map.setLayoutProperty(layer, 'visibility', 'none');
+				}
+			})
+			     
+			}//
+			
+			if (clickedLayer == 'CLEAR') {
+			 btns.each(function(index){
+			 	var layer = btns.eq(index).text();
+			      var visibility = map.getLayoutProperty(layer, 'visibility');
+			      if (visibility == 'visible') {
+			         map.setLayoutProperty(layer, 'visibility', 'none');
+					 $('#menu a').eq(index).removeClass('active_on');
+			         this.className = '';
+			      }
+			  })
+			}//
+			
+			//
+			
+			if (clickedLayer == 'ASIA'||clickedLayer == 'AMERICAS'||clickedLayer == 'EUROPE'||clickedLayer == 'AfricaPacficMiddleeast') {
+							  var btn_all=$('.'+clickedLayer+' a');
+							  btn_all.each(function(index){
+								 var layer = btn_all.eq(index).text();;
+								    var visibility = map.getLayoutProperty(layer, 'visibility');
+								 if (visibility == 'none') {
+								    map.setLayoutProperty(layer, 'visibility', 'visible');
+								 						btn_all.eq(index).addClass('active_on');
+								 }
+								 else {
+								    map.setLayoutProperty(layer, 'visibility', 'none');
+								 						btn_all.eq(index).removeClass('active_on')
+								 } 
+							  })
+			}
+			
+		
+			
+			
+			var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+			if (visibility === 'none') {
+			   map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+			   this.className = 'active_on';
+			   
+			} 
+			else {
+			   this.className = 'active';
+			   map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+			}
+			
+			//
+		});
+		
+		if (map.getLayer("cluster-count")) {
+		   map.removeLayer("cluster-count");
+		}
+		
+		
+	})
+
+
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+map.add
+ 
+</script>
+ 
+<script>
+
+</script>
+ 
+	</body>
+</html>
