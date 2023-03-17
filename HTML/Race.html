@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Show and hide layers</title>
+<h1><pre>                Chinese Dual Language Immersion Programs in US Public Schools</pre> </h1>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 10%; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+    #menu {
+        background: #fff;
+        position: absolute;
+        z-index: 1;
+        top: 75%;
+        right: 10px;
+        border-radius: 3px;
+        width: 120px;
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    #menu a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        text-align: center;
+    }
+
+    #menu a:last-child {
+        border: none;
+    }
+
+    #menu a:hover {
+        background-color: #f8f8f8;
+        color: #404040;
+    }
+
+    #menu a.active {
+        background-color: #3887be;
+        color: #ffffff;
+    }
+
+    #menu a.active:hover {
+        background: #3074a4;
+    }
+</style>
+
+<nav id="menu"></nav>
+<div id="map"></div>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3RlZm5hYmFvIiwiYSI6ImNrenN5NGo5aDc3ZjMyc3R2YTdhZDJ6N2oifQ.OvkQvGEQ5R_mYwejwzwxKQ';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/stefnabao/clah5f7ds000614pt4dowu7g6',
+        zoom: 3.06,
+        center: [-98.728, 39.270]
+    });
+
+    // Wait until the map has finished loading.
+    map.on('load', () => {
+        // Add a custom vector tileset source. This tileset contains
+        // point features representing museums. Each feature contains
+        // three properties. 
+        /////Asian////////////////////////////
+        map.addSource('Asian', {
+            type: 'vector',
+            url: 'mapbox://stefnabao.4du5336l'
+        });
+        map.addLayer({
+            'id': 'Asian',
+            'type': 'circle',
+            'source': 'Asian',
+            'layout': {
+                // Make the layer visible by default.
+                'visibility': 'visible'
+            },
+            'paint': {
+                'circle-radius': 4,
+                'circle-color': 'rgba(96,238,137,1)'
+            },
+            'source-layer': 'Updatedasian-0hd836'
+        });
+        ////////Black//////////////////
+        map.addSource('Black', {
+            type: 'vector',
+            url: 'mapbox://stefnabao.atzpd33m'
+        });
+        map.addLayer({
+            'id': 'Black',
+            'type': 'circle',
+            'source': 'Black',
+            'layout': {
+                // Make the layer visible by default.
+                'visibility': 'visible'
+            },
+            'paint': {
+                'circle-radius': 4,
+                'circle-color': 'rgba(19,2,254,1)'
+            },
+            'source-layer': 'black-0523mz'
+        });
+        ////////Hispanic//////////////////
+        map.addSource('Hispanic', {
+            type: 'vector',
+            url: 'mapbox://stefnabao.3dog72mh'
+        });
+        map.addLayer({
+            'id': 'Hispanic',
+            'type': 'circle',
+            'source': 'Hispanic',
+            'layout': {
+                // Make the layer visible by default.
+                'visibility': 'visible'
+            },
+            'paint': {
+                'circle-radius': 4,
+                'circle-color': 'rgba(255,0,0,1)'
+            },
+            'source-layer': 'UpdatedHispanic-a0sm0d'
+        });
+        ////////White//////////////////
+        map.addSource('White', {
+            type: 'vector',
+            url: 'mapbox://stefnabao.6fh5dhx0'
+        });
+        map.addLayer({
+            'id': 'White',
+            'type': 'circle',
+            'source': 'White',
+            'layout': {
+                // Make the layer visible by default.
+                'visibility': 'visible'
+            },
+            'paint': {
+                'circle-radius': 4,
+                'circle-color': 'rgba(140,0,171,1)'
+            },
+            'source-layer': 'White-1q5yb2'
+        });
+    });
+
+    // After the last frame rendered before the map enters an "idle" state.
+    map.on('idle', () => {
+        // If these two layers were not added to the map, abort
+        if (!map.getLayer('Asian') || !map.getLayer('Black') || !map.getLayer('Hispanic') || !map.getLayer('White')) {
+            return;
+        }
+
+        // Enumerate ids of the layers.
+        const toggleableLayerIds = ['Asian','Black','Hispanic','White'];
+
+        // Set up the corresponding toggle button for each layer.
+        for (const id of toggleableLayerIds) {
+            // Skip layers that already have a button set up.
+            if (document.getElementById(id)) {
+                continue;
+            }
+
+            // Create a link.
+            const link = document.createElement('a');
+            link.id = id;
+            link.href = '#';
+            link.textContent = id;
+            link.className = 'active';
+
+            // Show or hide layer when the toggle is clicked.
+            link.onclick = function (e) {
+                const clickedLayer = this.textContent;
+                e.preventDefault();
+                e.stopPropagation();
+
+                const visibility = map.getLayoutProperty(
+                    clickedLayer,
+                    'visibility'
+                );
+
+                // Toggle layer visibility by changing the layout object's visibility property.
+                if (visibility === 'visible') {
+                    map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                    this.className = '';
+                } else {
+                    this.className = 'active';
+                    map.setLayoutProperty(
+                        clickedLayer,
+                        'visibility',
+                        'visible'
+                    );
+                }
+            };
+
+            const layers = document.getElementById('menu');
+            layers.appendChild(link);
+        }
+    });
+</script>
+
+</body>
+</html>
